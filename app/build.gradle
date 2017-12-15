@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+
+android {
+    //We'll set the variables that are set by Jenkins here
+    compileSdkVersion compile_sdk
+    buildToolsVersion build_tools
+
+    defaultConfig {
+        applicationId "com.aware.plugin.ucla.dgc"
+        minSdkVersion minimum_sdk
+        targetSdkVersion target_sdk
+        versionCode version_code
+        versionName version_readable
+    }
+
+    //Conversations plugin uses a native library, add support to importing that library
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi'
+        }
+    }
+
+    //we are signing the package using Jenkins, so we'll add it as a parameter for this application.
+    signingConfigs {
+        release
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    //ignore documentation parsing errors
+    lintOptions {
+        abortOnError false
+    }
+}
+
+//adding Jenkins certificate parameters
+if (System.getenv("storeFile") != null && System.getenv("storePassword") != null && System.getenv("keyAlias") != null && System.getenv("keyPassword") != null) {
+    android.signingConfigs.release.storeFile = file(System.getenv("storeFile"))
+    android.signingConfigs.release.storePassword = System.getenv("storePassword")
+    android.signingConfigs.release.keyAlias = System.getenv("keyAlias")
+    android.signingConfigs.release.keyPassword = System.getenv("keyPassword")
+} else {
+    println("No keystore defined. Unsigned!")
+    android.buildTypes.release.signingConfig = null
+}
+
+//adding AWARE's library to this project
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+//Tell android studio to always try to get the latest version of the framework from JitPack.io
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    //add all the dependencies we need. the $ variables are set via Jenkins and, if not using it, from the project build.gradle
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //these are AWARE's dependencies: MQTT, Google Location Services, GridLayout (for the ESMs), and Ion for the SSL communication
+    implementation "com.google.android.gms:play-services-location:$google_libs" //our plugin has been compiled with 11.4.2, so ignore this
+    implementation "com.android.support:appcompat-v7:$support_libs" //you can ignore this, Google has yet to update their own library versions to have the same number.
+    implementation "com.android.support:gridlayout-v7:$support_libs" //same here, ignore the update
+    implementation "org.eclipse.paho:org.eclipse.paho.client.mqttv3:$mqtt_libs"
+    implementation "com.koushikdutta.ion:ion:$ion_libs"
+
+    //adding AWARE now as a dependency
+    implementation "com.github.denzilferreira:aware-client:$aware_libs" //set by the project build.gradle/Jenkins
+
+    //we add more plugins we want bundled after this. Let's compile now.
+    //UCLA needs: activity recognition, fused location plugins, conversations
+    implementation "com.github.denzilferreira:com.aware.plugin.google.activity_recognition:$aware_libs"
+    implementation "com.github.denzilferreira:com.aware.plugin.google.fused_location:$aware_libs"
+    implementation "com.github.denzilferreira:com.aware.plugin.studentlife.audio_final:$aware_libs"
+}
