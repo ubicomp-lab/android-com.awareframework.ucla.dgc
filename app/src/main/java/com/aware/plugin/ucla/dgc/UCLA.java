@@ -2,18 +2,13 @@ package com.aware.plugin.ucla.dgc;
 
 import android.Manifest;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
+import android.os.Bundle;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.aware.Accelerometer;
 import com.aware.Applications;
 import com.aware.Aware;
 import com.aware.Aware_Preferences;
@@ -110,6 +105,7 @@ public class UCLA extends AppCompatActivity {
                     Aware.setSetting(getApplicationContext(), Aware_Preferences.STATUS_CALLS, true);
                     Aware.setSetting(getApplicationContext(), Aware_Preferences.STATUS_MESSAGES, true);
                     Aware.setSetting(getApplicationContext(), Aware_Preferences.STATUS_SCREEN, true);
+                    Aware.setSetting(getApplicationContext(), Aware_Preferences.STATUS_TOUCH, true);
 
                     Aware.setSetting(getApplicationContext(), Aware_Preferences.STATUS_WIFI, true);
                     Aware.setSetting(getApplicationContext(), Aware_Preferences.FREQUENCY_WIFI, 5); //every 5 minutes
