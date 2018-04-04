@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.aware.plugin.ucla.dgc.UCLA">
+    tools:context="com.aware.android.ucla.dgc.UCLA">
 
     <TextView
         android:id="@+id/welcome"
@@ -17,6 +16,8 @@
         android:id="@+id/join_study"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/sync_data"
+        android:layout_alignParentStart="true"
         android:background="@color/colorPrimary"
         android:text="Join study" />
 
@@ -24,7 +25,31 @@
         android:id="@+id/sync_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:background="@color/colorPrimary"
         android:text="Sync data" />
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress_joining"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/welcome"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/cards_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+
+</RelativeLayout>

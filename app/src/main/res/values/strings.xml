@@ -2,7 +2,8 @@
     <!-- We are overriding the text that has been set in the library, so that it is contextualised for this specific standalone app. -->
     <string name="app_name">UCLA DGC</string>
     <string name="aware_description">This accessibility service makes sure UCLA application is running at all times.</string>
-    <string name="aware_activate_accessibility">Please activate UCLA DGC in the accessibility services.</string>
+    <string name="aware_activate_accessibility_title">UCLA DGC</string>
+    <string name="aware_activate_accessibility">Please activate \"UCLA DGC\" in the accessibility services.</string>
+    <string name="foreground_notification_title">UCLA DGC</string>
     <string name="foreground_notification_text">UCLA application is active.</string>
-    <string name="plugin_ucla">Plugin: UCLA DGC</string>
 </resources>
